@@ -62,15 +62,15 @@ def _encode_params(**kw):
     args = []
     for k, v in kw.items():
         if isinstance(v, str):
-            qv = v.encode('utf-8') if isinstance(v, unicode) else v
-            args.append('%s=%s' % (k, urllib.quote(qv)))
+            qv = v.encode('utf-8') if isinstance(v, str) else v
+            args.append('%s=%s' % (k, urllib.parse.quote(qv)))
         elif isinstance(v, collections.Iterable):
             for i in v:
-                qv = i.encode('utf-8') if isinstance(i, unicode) else str(i)
-                args.append('%s=%s' % (k, urllib.quote(qv)))
+                qv = i.encode('utf-8') if isinstance(i, str) else str(i)
+                args.append('%s=%s' % (k, urllib.parse.quote(qv)))
         else:
             qv = str(v)
-            args.append('%s=%s' % (k, urllib.quote(qv)))
+            args.append('%s=%s' % (k, urllib.parse.quote(qv)))
     return '&'.join(args)
 
 def _encode_multipart(**kw):
@@ -89,7 +89,7 @@ def _encode_multipart(**kw):
             data.append(content)
         else:
             data.append('Content-Disposition: form-data; name="%s"\r\n' % k)
-            data.append(v.encode('utf-8') if isinstance(v, unicode) else v)
+            data.append(v.encode('utf-8') if isinstance(v, str) else v)
     data.append('--%s--\r\n' % boundary)
     return '\r\n'.join(data), boundary
 
