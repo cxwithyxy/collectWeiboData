@@ -209,13 +209,13 @@ def main():
 
     while True:
         ## 接受键盘输入
-        keyword = raw_input('Enter the keyword(type \'quit\' to exit ):')
+        keyword = input('Enter the keyword(type \'quit\' to exit ):')
         if keyword == 'quit':
             sys.exit()
-        startTime = raw_input('Enter the start time(Format:YYYY-mm-dd-HH):')
-        region = raw_input('Enter the region([BJ]11:1000,[SH]31:1000,[GZ]44:1,[CD]51:1):')
-        savedir = raw_input('Enter the save directory(Like C://data//):')
-        interval = raw_input('Enter the time interval( >30 and deafult:50):')
+        startTime = input('Enter the start time(Format:YYYY-mm-dd-HH):')
+        region = input('Enter the region([BJ]11:1000,[SH]31:1000,[GZ]44:1,[CD]51:1):')
+        savedir = input('Enter the save directory(Like C://data//):')
+        interval = input('Enter the time interval( >30 and deafult:50):')
 
         ##实例化收集类，收集指定关键字和起始时间的微博
         cd = CollectData(keyword, startTime, region, savedir, interval)
