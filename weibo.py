@@ -12,9 +12,9 @@ import json
 
 from io import StringIO
 
-import gzip, time, hmac, base64, hashlib, urllib, urllib2, logging, mimetypes, collections
+import gzip, time, hmac, base64, hashlib, urllib, logging, mimetypes, collections
 
-class APIError(StandardError):
+class APIError(Exception):
     '''
     raise APIError if receiving json message indicating failure.
     '''
@@ -22,7 +22,7 @@ class APIError(StandardError):
         self.error_code = error_code
         self.error = error
         self.request = request
-        StandardError.__init__(self, error)
+        super.__init__(self, error)
 
     def __str__(self):
         return 'APIError: %s: %s, request: %s' % (self.error_code, self.error, self.request)
@@ -60,8 +60,8 @@ def _encode_params(**kw):
     'a=%E4%B8%AD%E6%96%87&b=A&b=B&b=123'
     '''
     args = []
-    for k, v in kw.iteritems():
-        if isinstance(v, basestring):
+    for k, v in kw.items():
+        if isinstance(v, str):
             qv = v.encode('utf-8') if isinstance(v, unicode) else v
             args.append('%s=%s' % (k, urllib.quote(qv)))
         elif isinstance(v, collections.Iterable):
@@ -144,20 +144,20 @@ def _http_call(the_url, method, authorization, **kw):
             the_url = the_url.replace('https://api.', 'https://rm.api.')
     http_url = '%s?%s' % (the_url, params) if method==_HTTP_GET else the_url
     http_body = None if method==_HTTP_GET else params
-    req = urllib2.Request(http_url, data=http_body)
+    req = urllib.request.Request(http_url, data=http_body)
     req.add_header('Accept-Encoding', 'gzip')
     if authorization:
         req.add_header('Authorization', 'OAuth2 %s' % authorization)
     if boundary:
         req.add_header('Content-Type', 'multipart/form-data; boundary=%s' % boundary)
     try:
-        resp = urllib2.urlopen(req, timeout=12)
+        resp = urllib.request.urlopen(req, timeout=12)
         body = _read_body(resp)
         r = _parse_json(body)
         if hasattr(r, 'error_code'):
             raise APIError(r.error_code, r.get('error', ''), r.get('request', ''))
         return r
-    except urllib2.HTTPError as e:
+    except urllib.request.HTTPError as e:
         try:
             r = _parse_json(_read_body(e))
         except:
