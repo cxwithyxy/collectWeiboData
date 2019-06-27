@@ -64,7 +64,7 @@ def _encode_params(**kw):
         if isinstance(v, str):
             qv = v.encode('utf-8') if isinstance(v, str) else v
             args.append('%s=%s' % (k, urllib.parse.quote(qv)))
-        elif isinstance(v, collections.Iterable):
+        elif isinstance(v, collections.abc.Iterable):
             for i in v:
                 qv = i.encode('utf-8') if isinstance(i, str) else str(i)
                 args.append('%s=%s' % (k, urllib.parse.quote(qv)))
