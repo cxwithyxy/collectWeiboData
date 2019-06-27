@@ -55,7 +55,7 @@ class CollectData():
     ##关键字需解码
     def setKeyword(self, keyword):
         self.keyword = keyword.decode('GBK').encode("utf-8")
-        print 'twice encode:',self.getKeyWord()
+        print('twice encode:',self.getKeyWord())
 
     ##设置起始范围，间隔为1小时
     ##格式为：yyyy-mm-dd-HH
@@ -116,7 +116,7 @@ class CollectData():
                     if tryNum < (maxTryNum-1):
                         time.sleep(10)
                     else:
-                        print 'Internet Connect Error!'
+                        print('Internet Connect Error!')
                         self.logger.error('Internet Connect Error!')
                         self.logger.info('filePath: ' + savedir)
                         self.logger.info('url: ' + source_url)
@@ -152,7 +152,7 @@ class CollectData():
                 lines = None
                 ## 处理被认为是机器人的情况
                 if isCaught:
-                    print 'Be Caught!'
+                    print('Be Caught!')
                     self.logger.error('Be Caught Error!')
                     self.logger.info('filePath: ' + savedir)
                     self.logger.info('url: ' + source_url)
@@ -163,7 +163,7 @@ class CollectData():
                     break
                 ## 没有更多结果，结束该次请求，跳到下一个请求
                 if not hasMore:
-                    print 'No More Results!'
+                    print('No More Results!')
                     if i == 1:
                         time.sleep(random.randint(55,75))
                     else:
@@ -178,7 +178,7 @@ class CollectData():
                     sleeptime = sleeptime_two
                 else:
                     sleeptime = sleeptime_one
-                print 'sleeping ' + str(sleeptime) + ' seconds...'
+                print('sleeping ' + str(sleeptime) + ' seconds...')
                 time.sleep(sleeptime)
             else:
                 break
@@ -220,15 +220,15 @@ def main():
         ##实例化收集类，收集指定关键字和起始时间的微博
         cd = CollectData(keyword, startTime, region, savedir, interval)
         while cd.flag:
-            print cd.timescope
+            print(cd.timescope)
             logger.info(cd.timescope)
             url = cd.getURL()
             cd.download(url)
             cd.timescope = cd.getTimescope(cd.timescope,1)  #改变搜索的时间，到下一个小时
         else:
             cd = None
-            print '-----------------------------------------------------'
-            print '-----------------------------------------------------'
+            print('-----------------------------------------------------')
+            print('-----------------------------------------------------')
     else:
         logger.removeHandler(filehandler)
         logger = None
