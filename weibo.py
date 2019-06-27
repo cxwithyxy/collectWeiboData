@@ -8,15 +8,9 @@ __author__ = 'Liao Xuefeng (askxuefeng@gmail.com)'
 Python client SDK for sina weibo API using OAuth 2.
 '''
 
-try:
-    import json
-except ImportError:
-    import simplejson as json
+import json
 
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
+from io import StringIO
 
 import gzip, time, hmac, base64, hashlib, urllib, urllib2, logging, mimetypes, collections
 
@@ -163,7 +157,7 @@ def _http_call(the_url, method, authorization, **kw):
         if hasattr(r, 'error_code'):
             raise APIError(r.error_code, r.get('error', ''), r.get('request', ''))
         return r
-    except urllib2.HTTPError, e:
+    except urllib2.HTTPError as e:
         try:
             r = _parse_json(_read_body(e))
         except:
