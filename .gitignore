@@ -2,3 +2,5 @@ venv/
 .vscode/settings.json
 collect.log
 __pycache__/
+build/
+dist/
