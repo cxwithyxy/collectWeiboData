@@ -11,7 +11,7 @@ import time
 import datetime
 import threading
 import os
-import Queue
+import queue as Queue
 import threading
 import pymongo
 import sys
@@ -107,7 +107,7 @@ class CollectGeoInPeriod:
                 try:
                     content = self.fetchContent(page, count, starttime, endtime)
                     break
-                except Exception, e:
+                except Exception as e:
                     if tryNum < (maxTryNum-1):
                         time.sleep(10)
                         self.logger.info('Retry...')
@@ -249,12 +249,12 @@ class ImportDB(threading.Thread):
                         self.status.insert(record)
                         ##  signals to queue job is done
                         self.queue.task_done()
-                    except Exception, e:
+                    except Exception as e:
                         #self.logger.debug(str(e))
                         pass
                 else:
                     time.sleep(3)
-            except Exception,e:
+            except Exception as e:
                 self.goon = False
                 self.conn.close()
                 
@@ -299,16 +299,16 @@ def main():
         p.append(t)
 
     #import data to mongodb
-    for j in xrange(dbThreadNum):
+    for j in range(dbThreadNum):
         dt = ImportDB(queue)
         q.append(dt)
         
     #wait on the queue until everything has been processed
-    for m in xrange(dbThreadNum):
+    for m in range(dbThreadNum):
         if q[m].isAlive():q[m].join()
     queue.join()
     
-    print 'ALL OVER!'
+    print('ALL OVER!')
     logger.info('ALL OVER!')
 
 if __name__ == '__main__':
