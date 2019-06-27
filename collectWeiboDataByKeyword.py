@@ -9,7 +9,7 @@ __author__ = 'Zhu Jianqi (heloowird@gmail.com)'
 import wx
 import sys
 import urllib
-import urllib2
+import urllib.request as urllib2
 import re
 import json
 import hashlib
