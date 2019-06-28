@@ -1,6 +1,8 @@
 collectWeiboData
 ================
 
+
+
 ## 收集含关键词的新浪微博数据
 
 **利用微博高级搜索功能，按关键字搜集一定时间范围内的微博。**详见[博客](http://blog.csdn.net/heloowird/article/details/38149451)
@@ -18,9 +20,11 @@ collectWeiboData
 >> + 某次请求的页数：page=1
 > *另外，高级搜索最多返回50页微博，那么时间间隔设置最小为宜。所以该类设置为搜集一定时间段内最多50页微博*
 
-2. 依赖包：lxml(解析网页)、py2exe(编译成windows窗口程序依赖包)
+2. 依赖包：[详见 requirements.txt ](requirements.txt)
+3. ~~编译方法：windows进入控制台，运行python setup.py py2exe，即可生成window窗口程序~~
+4. 打包命令：pyinstaller collectWeiboDataByKeyword.spec
 
-3. 编译方法：windows进入控制台，运行python setup.py py2exe，即可生成window窗口程序
+
 
 ## 收集含GPS的新浪微博数据
 
@@ -31,8 +35,42 @@ collectWeiboData
 > 2. 圆形区域较多，可采用多线程进行。一个buffer对应一个圆形区域，对应一个线程；
 > 3. 第三步：用额外的线程将采集到的微博数据入库。
 
-2. 依赖包：yaml(搜集参数)、pymongo(连接数据库MongoDB)、py2exe(编译成windows窗口程序依赖包)
+2. 依赖包：[详见 requirements.txt ](requirements.txt)
+3. ~~编译方法：windows进入控制台，运行python setup.py py2exe，即可生成window窗口程序~~
+4. 打包命令：pyinstaller collectWeiboDataByKeyword.spec
+5. 配置文件：详见config.yaml文件
 
-3. 编译方法：windows进入控制台，运行python setup.py py2exe，即可生成window窗口程序
 
-4. 配置文件：详见config.yaml文件
+
+## 可执行的二进制文件
+
+[点这里去下载 collectWeiboDataByKeyword.7z](https://github.com/cxwithyxy/collectWeiboData/releases)
+
+
+
+## 开发
+
+#### python版本
+
+需要 python3.7
+
+建议使用 virtualenv 虚拟 python 环境，保证当前项目和你其他 python 项目的依赖包不混淆在一起
+
+#### 命令--依赖安装
+
+```
+pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
+```
+
+#### 命令--运行
+
+```
+python collectWeiboDataByKeyword.py
+```
+
+#### 命令--打包
+
+```
+pyinstaller collectWeiboDataByKeyword.spec
+```
+
